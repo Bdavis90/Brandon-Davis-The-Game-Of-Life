@@ -7,7 +7,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.canvas {
-  /* background-color: black; */
+canvas {
+  background-color: black;
   margin: 0 auto;
 }
