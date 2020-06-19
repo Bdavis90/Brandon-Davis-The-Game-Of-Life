@@ -1,69 +1,15 @@
-import React, { Component, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 
-class Grid extends Component {
-  constructor() {
-    super();
-    this.canvasRef = React.createRef();
-  }
-
-  componentDidMount() {
-    const canvas = this.canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    canvas.width = 400;
-    canvas.height = 400;
-  }
-
-  makeGrid(cols, rows) {
-    return new Array(cols).fill(null).map(() => new Array(rows).fill(0));
-  }
-
-  grid;
-  cols;
-  rows;
-  resolution = 40;
-
-  setupGrid() {
-    // this.cols = this.canvas.width / this.resolution;
-    // this.rows = this.canvas.height / this.resolution;
-    this.grid = this.makeGrid(this.cols, this.rows);
-    for (let i = 0; i < this.cols; i++) {
-      for (let j = 0; j < this.rows; j++) {
-        this.grid[i][j] = Math.round(Math.random(2));
-      }
-    }
-  }
-
-  drawGrid() {
-    for (let i = 0; i < this.cols; i++) {
-      for (let j = 0; j < this.rows; j++) {
-        let x = i * this.resolution;
-        let y = j * this.resolution;
-      }
-    }
-  }
-
-  render() {
-    console.log();
-    return (
-      <div className="grid">
-        {this.setupGrid()}
-        <div className="canvas">
-          <canvas ref={this.canvasRef} width={0} height={0} />
-          <Canvas />
-        </div>
-      </div>
-    );
-  }
-}
-export default Grid;
-
-export const Canvas = () => {
+const Canvas = () => {
   const canvasRef = useRef("canvas");
-
   useEffect(() => {
+    canvasRef.current.width = 800;
+    canvasRef.current.height = 800;
     const ctx = canvasRef.current.getContext("2d");
 
+    console.log(canvasRef);
     setupGrid();
+    drawGrid(ctx);
     console.log(grid);
   }, []);
 
@@ -72,8 +18,8 @@ export const Canvas = () => {
   };
 
   let grid;
-  let cols = 10;
-  let rows = 10;
+  let cols = 20;
+  let rows = 20;
   let resolution = 40;
   // console.log(ctx, "ctx");
 
@@ -86,18 +32,35 @@ export const Canvas = () => {
     }
   };
 
-  const drawGrid = () => {
+  const nextGen = () => {
+    const nextGen = grid.map((arr) => [...arr]);
+
+    for (let i = 0; i < cols; i++) {
+      for (let j = 0; j < rows; j++) {}
+    }
+  };
+
+  const drawGrid = (ctx) => {
     for (let i = 0; i < cols; i++) {
       for (let j = 0; j < rows; j++) {
         let x = i * resolution;
         let y = j * resolution;
+        if (grid[i][j] == 1) {
+          ctx.beginPath();
+          ctx.rect(x, y, resolution, resolution);
+          ctx.fillStyle = "white";
+          ctx.fill();
+          ctx.stroke();
+        }
       }
     }
   };
 
   return (
     <>
-      <canvas ref={canvasRef} width="400" heigth="400" />
+      <canvas ref={canvasRef} width="" heigth="" />
     </>
   );
 };
+
+export default Canvas;
