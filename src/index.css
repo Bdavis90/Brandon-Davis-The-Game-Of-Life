@@ -5,17 +5,41 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #272b30;
+}
+
+.title {
+  font-size: 80px;
+  text-align: center;
+  color: #c8c8c8;
+}
+
+.generation {
+  text-align: center;
+  color: #c8c8c8;
 }
 
 .board {
   position: relative;
   margin: 0 auto;
-  background-color: #000;
-  background-image: linear-gradient(#333 1px, transparent 1px),
-    linear-gradient(90deg, #333 1px, transparent 1px);
+  background-color: #272b30;
+  background-image: linear-gradient(black 1px, transparent 1px),
+    linear-gradient(90deg, black 1px, transparent 1px);
+  cursor: pointer;
+  border: 1px solid black;
 }
 
 .cell {
   background: white;
+
   position: absolute;
+}
+
+.controls {
+  text-align: center;
+  margin: 40px 0;
+}
+
+button {
+  margin: 0 5px;
 }

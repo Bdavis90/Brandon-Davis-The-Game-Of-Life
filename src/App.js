@@ -4,7 +4,8 @@ import "./App.css";
 
 function App() {
   return (
-    <div>
+    <div className="app">
+      <h2 className="title">Conway's Game of Life</h2>
       <Game />
     </div>
   );

@@ -1,17 +1,21 @@
-import React from "react";
+import React, { Component } from "react";
 
-const Cell = ({ x, y, cellSize }) => {
-  return (
-    <div
-      className="cell"
-      style={{
-        left: `${cellSize * x + 1}px`,
-        top: `${cellSize * y + 1}px`,
-        width: `${cellSize - 1}px`,
-        height: `${cellSize - 1}px`,
-      }}
-    />
-  );
-};
-
+class Cell extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div
+        className="cell"
+        style={{
+          left: `${this.props.cellSize * this.props.x + 1}px`,
+          top: `${this.props.cellSize * this.props.y + 1}px`,
+          width: `${this.props.cellSize - 1}px`,
+          height: `${this.props.cellSize - 1}px`,
+        }}
+      />
+    );
+  }
+}
 export default Cell;
