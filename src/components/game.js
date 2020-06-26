@@ -3,10 +3,6 @@ import Cell from "./cell";
 import Controls from "./controls";
 // import "./Game.css";
 
-const cellSize = 20;
-const width = 800;
-const height = 600;
-
 class Game extends Component {
   state = {
     cells: [],
@@ -15,8 +11,12 @@ class Game extends Component {
     generation: 0,
   };
 
-  rows = height / cellSize;
-  cols = width / cellSize;
+  cellSize = 20;
+  width = 800;
+  height = 600;
+
+  rows = this.height / this.cellSize;
+  cols = this.width / this.cellSize;
 
   board = this.makeGame();
 
@@ -55,13 +55,43 @@ class Game extends Component {
     return cells;
   }
 
+  stepThrough = () => {
+    let newBoard = this.makeGame();
+
+    for (let y = 0; y < this.rows; y++) {
+      for (let x = 0; x < this.cols; x++) {
+        let neighbors = this.countNeighbors(this.board, x, y);
+        if (this.board[y][x]) {
+          if (neighbors === 2 || neighbors === 3) {
+            newBoard[y][x] = true;
+          } else {
+            newBoard[y][x] = false;
+          }
+        } else {
+          if (!this.board[y][x] && neighbors === 3) {
+            newBoard[y][x] = true;
+          }
+        }
+      }
+    }
+
+    this.setState({ generation: this.state.generation + 1 });
+    this.board = newBoard;
+    this.setState({ cells: this.makeCells() });
+
+    this.timeoutHandler = window.setTimeout(() => {
+      this.runGame();
+    }, this.state.interval);
+    this.stopGame();
+  };
+
   handleClick = (event) => {
     const elemOffset = this.getElementOffset();
     const offsetX = event.clientX - elemOffset.x;
     const offsetY = event.clientY - elemOffset.y;
 
-    const x = Math.floor(offsetX / cellSize);
-    const y = Math.floor(offsetY / cellSize);
+    const x = Math.floor(offsetX / this.cellSize);
+    const y = Math.floor(offsetY / this.cellSize);
 
     if (x >= 0 && x <= this.cols && y >= 0 && y <= this.rows) {
       this.board[y][x] = !this.board[y][x];
@@ -111,6 +141,7 @@ class Game extends Component {
       this.runGame();
     }, this.state.interval);
   }
+
   //   /**
   //    * Calculate the number of neighbors at point (x, y)
   //    * @param {Array} board
@@ -169,7 +200,10 @@ class Game extends Component {
       }
     }
 
-    this.setState({ cells: this.makeCells(), generation: 0 });
+    this.setState({
+      cells: this.makeCells(),
+      generation: 0,
+    });
   };
 
   render() {
@@ -187,15 +221,16 @@ class Game extends Component {
           stopGame={this.stopGame}
           isRunning={isRunning}
           interval={interval}
+          stepThrough={this.stepThrough}
         />
         <h2 className="generation">Generation {generation}</h2>
         {isRunning ? (
           <div
             className="board"
             style={{
-              width: width,
-              height: height,
-              backgroundSize: `${cellSize}px ${cellSize}px`,
+              width: this.width,
+              height: this.height,
+              backgroundSize: `${this.cellSize}px ${this.cellSize}px`,
             }}
           >
             {cells.map((cell) => (
@@ -203,7 +238,7 @@ class Game extends Component {
                 x={cell.x}
                 y={cell.y}
                 key={`${cell.x},${cell.y}`}
-                cellSize={cellSize}
+                cellSize={this.cellSize}
               />
             ))}
           </div>
@@ -211,9 +246,9 @@ class Game extends Component {
           <div
             className="board"
             style={{
-              width: width,
-              height: height,
-              backgroundSize: `${cellSize}px ${cellSize}px`,
+              width: this.width,
+              height: this.height,
+              backgroundSize: `${this.cellSize}px ${this.cellSize}px`,
             }}
             onClick={this.handleClick}
             ref={(n) => {
@@ -225,7 +260,7 @@ class Game extends Component {
                 x={cell.x}
                 y={cell.y}
                 key={`${cell.x},${cell.y}`}
-                cellSize={cellSize}
+                cellSize={this.cellSize}
               />
             ))}
           </div>

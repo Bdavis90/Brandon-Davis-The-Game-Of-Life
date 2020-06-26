@@ -31,7 +31,6 @@ body {
 
 .cell {
   background: white;
-
   position: absolute;
 }
 
@@ -42,4 +41,14 @@ body {
 
 button {
   margin: 0 5px;
+}
+
+.rules-container {
+  text-align: center;
+  color: #c8c8c8;
+}
+
+.rules-list {
+  list-style: none;
+  font-size: 20px;
 }

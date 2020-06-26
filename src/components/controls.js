@@ -13,8 +13,9 @@ class Controls extends Component {
       handleRandomBoard,
       handleClearBoard,
       isRunning,
-      interval,
+      stepThrough,
     } = this.props;
+
     return (
       <div className="controls">
         <button onClick={increaseSpeed}>Speed Up</button>
@@ -33,6 +34,9 @@ class Controls extends Component {
         </button>
         <button className="button" onClick={handleClearBoard}>
           Clear
+        </button>
+        <button className="button" onClick={stepThrough}>
+          Step Through
         </button>
       </div>
     );
